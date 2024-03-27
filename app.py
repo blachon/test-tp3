@@ -9,6 +9,14 @@ import logging
 import os
 import glob
 
+
+def remove_data(df: pd.DataFrame, last_n_samples: int = 4*3):
+
+    # df: pd.DataFrame = pd.read_csv(fic_export_data)
+    return df.iloc[:-last_n_samples]
+    # df.to_csv(fic_export_data, index=False)
+
+
 logging.basicConfig(level=logging.INFO)
 
 
@@ -46,6 +54,7 @@ def load_data(lag_days: int):
 
 # Assuming your CSV is named 'data.csv' and is in the same directory as your app.py
 df = load_data(LAG_N_DAYS)
+df = remove_data(df, last_n_samples=4*24)
 
 # Creating a line chart
 st.subheader("Line Chart of Numerical Data Over Time")
@@ -68,3 +77,7 @@ numerical_column = col_donnees
 # Create interactive line chart using Plotly
 fig = px.line(df, x=col_date, y=col_donnees, title="Consommation en fonction du temps")
 st.plotly_chart(fig)
+
+
+# TODO
+# viz streamlit
